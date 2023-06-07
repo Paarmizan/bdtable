@@ -1,32 +1,54 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-container>
+      <v-btn @click="showDialog">open</v-btn>
+      <upload-table :dialogShowed="dialogShowed" :configProps="config" @close-dialog="closeDialog"></upload-table>
+    </v-container>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Table from "@/components/table.vue";
+import UploadTable from "@/components/UploadTable.vue";
+import MyDialog from "@/components/MyDialog.vue";
+import MyPopup from "@/components/PopUp.vue";
+export default {
+  name: 'App',
+  components: {MyPopup, UploadTable, Table, MyDialog },
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data() {
+    return {
+      dialogShowed: false,
+      config: {
+        parameters : {
+          startRow: 1,
+          amountRow: 1,
+          sheet: 1,
+        },
+        columns: [
+          { name: 'name', pos: '1', label: 'Наименование' },
+          { name: 'short_name', pos: '2', label: 'Краткое название' },
+          { name: 'struct_name', pos: '3', label: 'Структурное название' },
+          { name: 'code', pos: '4', label: 'Код' },
+          { name: 'sn', pos: '5', label: 'SN' },
+          { name: 'barcode', pos: '6', label: 'Штрихкод' },
+          { name: 'description', pos: '7', label: 'Описание' },
+          { name: 'config', pos: '8', label: 'Конфиг' },
+          { name: 'changes_date', pos: '9', label: 'Дата измененний' },
+        ],
+      },
+    }
+  },
+  comments: {
+    Table, UploadTable, MyDialog,
+  },
+  methods: {
+    showDialog() {
+      this.dialogShowed = true;
+    },
+    closeDialog() {
+      this.dialogShowed = false;
+    }
+  },
+};
+</script>
